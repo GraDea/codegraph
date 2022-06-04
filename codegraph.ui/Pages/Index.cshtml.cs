@@ -1,8 +1,8 @@
-﻿using codegraph.common;
+﻿using CodeGraph.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace codegraph.ui.Pages;
+namespace CodeGraph.ui.Pages;
 
 public class IndexModel : PageModel
 {
