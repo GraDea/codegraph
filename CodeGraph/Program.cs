@@ -37,7 +37,7 @@ void Work()
     // start Roslyn workspace
     Microsoft.Build.Locator.MSBuildLocator.RegisterDefaults();
 
-    var repoNames = new[] {"yandex-payments"};
+    var repoNames = new[] {"yandex-payments", "billing-accounts"};
     var sources = @"C:\Users\o.sidorov\cian\git\microservices\";
     foreach (var repoName in repoNames)
     {

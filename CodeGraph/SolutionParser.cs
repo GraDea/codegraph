@@ -19,7 +19,7 @@ public class SolutionParser
     {
         var consumers = new List<QueueModel>();
 
-        MSBuildWorkspace workspace = MSBuildWorkspace.Create();
+        using var workspace = MSBuildWorkspace.Create();
 
         // open solution we want to analyze
         Solution solutionToAnalyze =
@@ -95,9 +95,8 @@ public class SolutionParser
             
             if (arguments.Count == 3)
             {
-                var exchangeName = (semanticModel.GetSymbolInfo(arguments[1].Expression).Symbol as IFieldSymbol)
-                    .ConstantValue.ToString();
-                var routingKey = arguments[2].Expression.ToString().Replace(@"""", "");
+                var exchangeName = GetValueFromExpressionSyntax(semanticModel, arguments[1].Expression);
+                var routingKey = GetValueFromExpressionSyntax(semanticModel, arguments[2].Expression);
                 var fields = syntax.Members.OfType<PropertyDeclarationSyntax>()
                     .Select(x => x.Identifier.Value.ToString());
 
@@ -115,6 +114,25 @@ public class SolutionParser
 
         queueModel = null;
         return false;
+    }
+
+
+    string GetValueFromExpressionSyntax(SemanticModel semanticModel, ExpressionSyntax expression)
+    {
+        if (expression is LiteralExpressionSyntax)
+        {
+            return expression.ToString().Replace(@"""", "");
+        }
+        else if (expression is MemberAccessExpressionSyntax)
+        {
+            return (semanticModel.GetSymbolInfo(expression).Symbol as IFieldSymbol).ConstantValue.ToString();
+        }
+        else if(expression is IdentifierNameSyntax)
+        {
+            return (semanticModel.GetSymbolInfo(expression).Symbol as IFieldSymbol).ConstantValue.ToString();
+        }
+
+        throw new NotSupportedException($"Не поддерживаемый тип expression {expression.GetType().ToString()}");
     }
     
     bool IsConsumerQueueModel(ClassDeclarationSyntax classDeclarationSyntax)
