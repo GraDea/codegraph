@@ -25,6 +25,6 @@ public class CodegraphController : ControllerBase
     [HttpGet(Name = "items")]
     public IEnumerable<QueueModel> Get([FromQuery]string name)
     {
-        return Items.Where(lst => lst.ExchangeName == name || lst.RoutingQueue == name);
+        return Items.Where(lst => lst.ExchangeName == name || lst.RoutingKey == name);
     }
 }

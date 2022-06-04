@@ -2,7 +2,12 @@
 
 public class QueueModel
 {
-    public string RoutingQueue { get; set; }
+    public QueueModel(QueueMemberType memberType)
+    {
+        MemberType = memberType;
+    }
+    
+    public string RoutingKey { get; set; }
     
     public string ExchangeName { get; set; }
     
