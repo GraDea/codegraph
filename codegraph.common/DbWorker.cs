@@ -1,6 +1,9 @@
-namespace codegraph.common;
+using System.Collections.Generic;
+using System.IO;
 
-public class DbWorker
+namespace CodeGraph.Common;
+
+public static class DbWorker
 {
     public static  void Save(List<QueueModel> model)
     {

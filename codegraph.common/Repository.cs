@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace codegraph.common;
+namespace CodeGraph.Common;
 
 public class Repository
 {

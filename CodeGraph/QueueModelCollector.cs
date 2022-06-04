@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace codegraph;
+namespace CodeGraph;
 
 public class QueueModelCollector : CSharpSyntaxWalker
 {

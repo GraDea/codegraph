@@ -1,21 +1,24 @@
-using codegraph.common;
+using System.Collections.Generic;
+using System.Linq;
+using CodeGraph.Common;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace codegraph.web.Controllers;
+namespace CodeGraph.Web.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CodegraphController : ControllerBase
+public class CodeGraphController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-    private readonly ILogger<CodegraphController> _logger;
+    private readonly ILogger<CodeGraphController> _logger;
     public static List<QueueModel>? Items; 
 
-    public CodegraphController(ILogger<CodegraphController> logger)
+    public CodeGraphController(ILogger<CodeGraphController> logger)
     {
         Items = DbWorker.Load(); 
 

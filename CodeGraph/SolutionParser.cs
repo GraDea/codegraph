@@ -1,10 +1,10 @@
 using System.Text.RegularExpressions;
-using codegraph.common;
+using CodeGraph.Common;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 
-namespace codegraph;
+namespace CodeGraph;
 
 public class SolutionParser
 {
@@ -19,18 +19,15 @@ public class SolutionParser
     {
         var consumers = new List<QueueModel>();
 
-        MSBuildWorkspace workspace = MSBuildWorkspace.Create();
+        var workspace = MSBuildWorkspace.Create();
 
         // open solution we want to analyze
-        Solution solutionToAnalyze =
+        var solutionToAnalyze =
             workspace.OpenSolutionAsync(_repository.SolutionPath).Result;
-
-        // Project project = solutionToAnalyze.Projects
-        //     .FirstOrDefault(proj => proj.Name == "Common");
 
         foreach (var project in solutionToAnalyze.Projects.Where(x=>x.Name != "Tests"))
         {
-            Compilation compilation = project.GetCompilationAsync().Result;
+            var compilation = project.GetCompilationAsync().Result;
 
             foreach (var document in project.Documents)
             {
