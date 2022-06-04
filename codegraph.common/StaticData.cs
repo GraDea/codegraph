@@ -1,4 +1,4 @@
-namespace codegraph.common;
+namespace CodeGraph.Common;
 
 public class StaticData
 {

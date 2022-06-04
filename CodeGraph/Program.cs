@@ -3,8 +3,8 @@
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text.RegularExpressions;
-using codegraph;
-using codegraph.common;
+using CodeGraph;
+using CodeGraph.Common;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

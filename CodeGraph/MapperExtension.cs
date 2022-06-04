@@ -1,9 +1,9 @@
-using codegraph.common;
+using CodeGraph.Common;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace codegraph;
+namespace CodeGraph;
 
 public static class MapperExtension
 {
