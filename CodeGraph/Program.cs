@@ -11,9 +11,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 
 
-List<QueueModel> CollectMetadata(string s, string repoName)
+List<QueueModel> CollectMetadata(string path)
 {
-    var repository = new Repository($@"{s}{repoName}\");
+    var repository = new Repository(path);
 
     var parser = new SolutionParser(repository);
 
@@ -37,13 +37,17 @@ void Work()
     // start Roslyn workspace
     Microsoft.Build.Locator.MSBuildLocator.RegisterDefaults();
 
-    var repoNames = new[] {"yandex-payments", "billing-accounts"};
-    var sources = @"C:\Users\o.sidorov\cian\git\microservices\";
+    var repoPaths = new[]
+    {
+        @"C:\Users\o.sidorov\cian\git\microservices\yandex-payments", 
+        @"C:\Users\o.sidorov\cian\git\microservices\billing-accounts",
+        @"C:\Users\o.sidorov\cian\git\monolith\csharp"
+    };
 
     var result = new List<QueueModel>();
-    foreach (var repoName in repoNames)
+    foreach (var path in repoPaths)
     {
-        result.AddRange(CollectMetadata(sources, repoName));
+        result.AddRange(CollectMetadata(path));
     }
     
     DbWorker.Save(result);

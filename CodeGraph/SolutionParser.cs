@@ -46,7 +46,8 @@ public class SolutionParser
                 {
                     if (IsQueuePublishInvoke(model, invocationSyntax))
                     {
-                        classesToPublish.Add((model.GetSymbolInfo(invocationSyntax.ArgumentList.Arguments[0].Expression).Symbol as ILocalSymbol).Type.ToString());
+                        classesToPublish.Add(GetFullTypeNameFromExpression(model,
+                            invocationSyntax.ArgumentList.Arguments[0].Expression));
                     }
                 }
                 
@@ -116,6 +117,19 @@ public class SolutionParser
         return false;
     }
 
+    string GetFullTypeNameFromExpression(SemanticModel semanticModel, ExpressionSyntax expressionSyntax)
+    {
+        if (expressionSyntax is IdentifierNameSyntax)
+        {
+            return (semanticModel.GetSymbolInfo(expressionSyntax).Symbol as ILocalSymbol).Type.ToString();
+        }
+        if (expressionSyntax is ObjectCreationExpressionSyntax)
+        {
+            return semanticModel.GetTypeInfo(expressionSyntax).Type.ToString();
+        }
+
+        throw new NotSupportedException($"Не поддерживаемый expression {expressionSyntax.GetType()}");
+    }
 
     string GetValueFromExpressionSyntax(SemanticModel semanticModel, ExpressionSyntax expression)
     {
@@ -145,6 +159,12 @@ public class SolutionParser
     {
         if (syntax.ToString().Contains("Publish"))
         {
+            if ((model.GetSymbolInfo(syntax).Symbol as IMethodSymbol).IsExtensionMethod)
+            {
+                //TODO: Сделать обработку методов расширения, чтобы заходить в них и получать создание queue модели. Найдено в монолите: PublishUserProfileChangedQueueMessage
+                return false;
+            }
+            
             return "Cian.Queue.Services.IQueueService" == (model.GetSymbolInfo(
                 ((Microsoft.CodeAnalysis.CSharp.Syntax.MemberAccessExpressionSyntax) syntax
                     .Expression).Expression).Symbol as IFieldSymbol)?.Type.ToString();

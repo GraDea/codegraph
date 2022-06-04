@@ -22,7 +22,13 @@ public class Repository
     
     string GetMcsName(string directory)
     {
-        var appTomlContent = File.ReadAllText(Path.Combine(directory, "app.toml"));
+        var path = Path.Combine(directory, "app.toml");
+        if (!File.Exists(path))
+        {
+            return "monolith";
+        }
+        
+        var appTomlContent = File.ReadAllText(path);
         var match = Regex.Match(appTomlContent, @"name.*?=.*?\""(.*?)\""[\n\r]");
         if (match.Success)
         {
