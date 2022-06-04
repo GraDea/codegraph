@@ -1,0 +1,48 @@
+﻿@page
+@using codegraph.common
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    @if(Model.Items == null || !Model.Items.Any())
+    {
+        <h1 class="display-4">Найденные совпадения не обнаружены</h1>
+    }
+    else
+    {
+        <table class="table table-striped">
+
+            <thead>
+            <tr>
+                <th scope="col">Микросервис</th>
+                <th scope="col">Exchange</th>
+                <th scope="col">Routing</th>
+                <th scope="col">Type</th>
+            </tr>
+            </thead>
+            <tbody>
+                            @foreach (var item in Model.Items)
+                                        {
+                                            <tr>
+                                                <td scope="row">@item.Microservice</td>
+                                                <td scope="row">@item.ExchangeName</td>
+                                                <td scope="row">@item.RoutingQueue</td>
+                                                @if (item.MemberType == QueueMemberType.Consumer)
+                                                {
+                                                    <td scope="row">Подписчик</td>
+                                                }
+                                                else
+                                                {
+                                                    <td scope="row">Подюсер</td>
+                                                }
+                                            </tr>
+                                        }
+                        </tbody>
+        </table>
+      
+            
+    }
+    
+</div>
