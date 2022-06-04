@@ -9,14 +9,14 @@ using NUnit.Framework;
 
 [assembly: Apartment(ApartmentState.STA)]
 
-namespace ReSharperPlugin.CrossRepoDependeciesPlugin.Tests
+namespace ReSharperPlugin.CrossRepoDependenciesPlugin.Tests
 {
     [ZoneDefinition]
-    public class CrossRepoDependeciesPluginTestEnvironmentZone : ITestsEnvZone, IRequire<PsiFeatureTestZone>, IRequire<ICrossRepoDependeciesPluginZone> { }
+    public class CrossRepoDependenciesPluginTestEnvironmentZone : ITestsEnvZone, IRequire<PsiFeatureTestZone>, IRequire<ICrossRepoDependenciesPluginZone> { }
 
     [ZoneMarker]
-    public class ZoneMarker : IRequire<ICodeEditingZone>, IRequire<ILanguageCSharpZone>, IRequire<CrossRepoDependeciesPluginTestEnvironmentZone> { }
+    public class ZoneMarker : IRequire<ICodeEditingZone>, IRequire<ILanguageCSharpZone>, IRequire<CrossRepoDependenciesPluginTestEnvironmentZone> { }
 
     [SetUpFixture]
-    public class CrossRepoDependeciesPluginTestsAssembly : ExtensionTestEnvironmentAssembly<CrossRepoDependeciesPluginTestEnvironmentZone> { }
+    public class CrossRepoDependenciesPluginTestsAssembly : ExtensionTestEnvironmentAssembly<CrossRepoDependenciesPluginTestEnvironmentZone> { }
 }

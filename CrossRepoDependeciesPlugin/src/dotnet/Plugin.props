@@ -3,11 +3,11 @@
   <PropertyGroup>
     <SdkVersion>2022.1.0</SdkVersion>
 
-    <Title>CrossRepoDependeciesPlugin</Title>
+    <Title>CrossRepoDependenciesPlugin</Title>
     <Description>Description</Description>
 
     <Authors>Author</Authors>
-    <Copyright>Copyright $([System.DateTime]::Now.Year) Maintainers of CrossRepoDependeciesPlugin</Copyright>
+    <Copyright>Copyright $([System.DateTime]::Now.Year) Maintainers of CrossRepoDependenciesPlugin</Copyright>
     <PackageTags>resharper plugin</PackageTags>
 
     <PackageProjectUrl></PackageProjectUrl>

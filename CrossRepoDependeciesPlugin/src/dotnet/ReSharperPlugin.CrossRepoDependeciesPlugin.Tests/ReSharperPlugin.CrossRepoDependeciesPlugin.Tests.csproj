@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ReSharperPlugin.CrossRepoDependeciesPlugin\ReSharperPlugin.CrossRepoDependeciesPlugin.csproj" />
+    <ProjectReference Include="..\ReSharperPlugin.CrossRepoDependenciesPlugin\ReSharperPlugin.CrossRepoDependenciesPlugin.csproj" />
   </ItemGroup>
 
   <ItemGroup>

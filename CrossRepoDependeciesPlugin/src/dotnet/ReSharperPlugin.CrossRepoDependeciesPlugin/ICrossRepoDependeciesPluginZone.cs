@@ -3,11 +3,11 @@ using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 
-namespace ReSharperPlugin.CrossRepoDependeciesPlugin
+namespace ReSharperPlugin.CrossRepoDependenciesPlugin
 {
     [ZoneDefinition]
     // [ZoneDefinitionConfigurableFeature("Title", "Description", IsInProductSection: false)]
-    public interface ICrossRepoDependeciesPluginZone : IZone
+    public interface ICrossRepoDependenciesPluginZone : IZone
     {
     }
 }

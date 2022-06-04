@@ -8,7 +8,7 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <AssemblyName>ReSharperPlugin.CrossRepoDependeciesPlugin</AssemblyName>
+    <AssemblyName>ReSharperPlugin.CrossRepoDependenciesPlugin</AssemblyName>
     <RootNamespace>$(AssemblyName)</RootNamespace>
     <IsPackable>false</IsPackable>
     <DefineConstants>$(DefineConstants);RIDER</DefineConstants>
