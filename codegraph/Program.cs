@@ -11,9 +11,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 
 
-Void SaveMetadata(String s, String repoName1)
+void SaveMetadata(string s, string repoName)
 {
-    var repository = new Repository($@"{s}{repoName1}\");
+    var repository = new Repository($@"{s}{repoName}\");
 
     var parser = new SolutionParser(repository);
 
