@@ -11,15 +11,15 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 
 
-void SaveMetadata(string s, string repoName)
+List<QueueModel> CollectMetadata(string s, string repoName)
 {
     var repository = new Repository($@"{s}{repoName}\");
 
     var parser = new SolutionParser(repository);
 
-    var dependencies = parser.GetQueueDependencies();
+    var result = parser.GetQueueDependencies();
 
-    DbWorker.Save(dependencies);
+    return result;
 }
 
 try
@@ -37,10 +37,14 @@ void Work()
     // start Roslyn workspace
     Microsoft.Build.Locator.MSBuildLocator.RegisterDefaults();
 
-    var repoNames = new[] {"yandex-payments"};
+    var repoNames = new[] {"yandex-payments", "billing-accounts"};
     var sources = @"C:\Users\o.sidorov\cian\git\microservices\";
+
+    var result = new List<QueueModel>();
     foreach (var repoName in repoNames)
     {
-        SaveMetadata(sources, repoName);
+        result.AddRange(CollectMetadata(sources, repoName));
     }
+    
+    DbWorker.Save(result);
 }
