@@ -19,15 +19,19 @@ public class SolutionParser
     {
         var consumers = new List<QueueModel>();
 
-        var workspace = MSBuildWorkspace.Create();
+        MSBuildWorkspace workspace = MSBuildWorkspace.Create();
 
         // open solution we want to analyze
-        var solutionToAnalyze =
+        Solution solutionToAnalyze =
             workspace.OpenSolutionAsync(_repository.SolutionPath).Result;
 
+        // Project project = solutionToAnalyze.Projects
+        //     .FirstOrDefault(proj => proj.Name == "Common");
+
+        var classesToPublish = new List<string>();
         foreach (var project in solutionToAnalyze.Projects.Where(x=>x.Name != "Tests"))
         {
-            var compilation = project.GetCompilationAsync().Result;
+            Compilation compilation = project.GetCompilationAsync().Result;
 
             foreach (var document in project.Documents)
             {
@@ -36,28 +40,37 @@ public class SolutionParser
                 var model = compilation.GetSemanticModel(tree);
             
             
-                // var invocationSyntaxes = root.DescendantNodes().OfType<InvocationExpressionSyntax>();
-                //
-                // var classesToPublish = new List<string>();
-                // foreach (var invocationSyntax in invocationSyntaxes)
-                // {
-                //     if (IsQueuePublishInvoke(model, invocationSyntax))
-                //     {
-                //         classesToPublish.Add((model.GetSymbolInfo(invocationSyntax.ArgumentList.Arguments[0].Expression).Symbol as IFieldSymbol).Type.ToString());
-                //     }
-                // }
-                //
-                // classesToPublish = classesToPublish.Distinct().ToList();
+                var invocationSyntaxes = root.DescendantNodes().OfType<InvocationExpressionSyntax>();
+                
+                foreach (var invocationSyntax in invocationSyntaxes)
+                {
+                    if (IsQueuePublishInvoke(model, invocationSyntax))
+                    {
+                        classesToPublish.Add((model.GetSymbolInfo(invocationSyntax.ArgumentList.Arguments[0].Expression).Symbol as ILocalSymbol).Type.ToString());
+                    }
+                }
+                
+                classesToPublish = classesToPublish.Distinct().ToList();
             
             
                 var classes = root.DescendantNodes().OfType<ClassDeclarationSyntax>();
             
                 foreach (var syntax in classes)
                 {
-                    if (IsConsumerQueueModel(syntax)
-                       ) //|| classesToPublish.Contains(syntax.ToString())
+                    var fullTypeName =
+                        (model.GetDeclaredSymbol(syntax) as INamedTypeSymbol).ConstructedFrom.ToString();
+                    
+                    if (IsConsumerQueueModel(syntax))
                     {
-                        if(TryGetQueueModelFromClass(model, syntax, out var queueModel))
+                        if(TryGetQueueModelFromClass(model, syntax, QueueMemberType.Consumer, out var queueModel))
+                        {
+                            consumers.Add(queueModel);
+                        }
+                    }
+                    
+                    if(classesToPublish.Contains(fullTypeName))
+                    {
+                        if(TryGetQueueModelFromClass(model, syntax, QueueMemberType.Publisher, out var queueModel))
                         {
                             consumers.Add(queueModel);
                         }
@@ -72,7 +85,7 @@ public class SolutionParser
 
     }
 
-    bool TryGetQueueModelFromClass(SemanticModel semanticModel, ClassDeclarationSyntax syntax, out QueueModel queueModel)
+    bool TryGetQueueModelFromClass(SemanticModel semanticModel, ClassDeclarationSyntax syntax, QueueMemberType memberType, out QueueModel queueModel)
     {
         var constructorDeclarationSyntax =
             syntax.Members.OfType<ConstructorDeclarationSyntax>().FirstOrDefault();
@@ -84,11 +97,11 @@ public class SolutionParser
             {
                 var exchangeName = (semanticModel.GetSymbolInfo(arguments[1].Expression).Symbol as IFieldSymbol)
                     .ConstantValue.ToString();
-                var routingKey = arguments[2].Expression.ToString();
+                var routingKey = arguments[2].Expression.ToString().Replace(@"""", "");
                 var fields = syntax.Members.OfType<PropertyDeclarationSyntax>()
                     .Select(x => x.Identifier.Value.ToString());
 
-                queueModel = new QueueModel(QueueMemberType.Consumer)
+                queueModel = new QueueModel(memberType)
                 {
                     ExchangeName = exchangeName,
                     RoutingKey = routingKey,
@@ -112,9 +125,14 @@ public class SolutionParser
 
     bool IsQueuePublishInvoke(SemanticModel model, InvocationExpressionSyntax syntax)
     {
-        return syntax.ToString().Contains("Publish") && "Cian.Queue.Services.IQueueService" == (model.GetSymbolInfo(
-            ((Microsoft.CodeAnalysis.CSharp.Syntax.MemberAccessExpressionSyntax) syntax
-                .Expression).Expression).Symbol as IFieldSymbol).Type.ToString();
+        if (syntax.ToString().Contains("Publish"))
+        {
+            return "Cian.Queue.Services.IQueueService" == (model.GetSymbolInfo(
+                ((Microsoft.CodeAnalysis.CSharp.Syntax.MemberAccessExpressionSyntax) syntax
+                    .Expression).Expression).Symbol as IFieldSymbol)?.Type.ToString();
+        }
+
+        return false;
     }
 
     string GetBaseTypeName(BaseTypeSyntax baseTypeSyntax)
