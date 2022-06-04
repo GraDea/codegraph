@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using CodeGraph.Common;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -22,7 +19,7 @@ namespace CodeGraph.UI.Pages
                 var linkedConsumers = consumers.Where(x => x.ExchangeName == publisher.ExchangeName && x.RoutingKey == publisher.RoutingKey);
                 foreach (var consumer in linkedConsumers)
                 {
-                    edges.Add(new Tuple<string, string>(publisher.Microservice, consumer.Microservice));
+                    Edges.Add(new Tuple<string, string>(publisher.Microservice, consumer.Microservice));
                 }
             }
             
