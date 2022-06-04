@@ -9,31 +9,31 @@
 
 <html>
 <head>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/graphdracula/1.0.3/dracula.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/graphdracula/1.0.3/dracula.min.js"></script>
 
     <title></title>
 </head>
 <body>
-<div>
+<div id="canvas">
     
 </div>
 <script>
 const g = new Dracula.Graph();
+@foreach (var edge in Model.Edges)
+{
+    <text>
+    g.addEdge('@edge.Item1','@edge.Item2');
+     </text>
+}
 
-g.addEdge("strawberry", "cherry");
-g.addEdge("strawberry", "apple");
-g.addEdge("strawberry", "tomato");
-
-g.addEdge("tomato", "apple");
-g.addEdge("tomato", "kiwi");
-
-g.addEdge("cherry", "apple");
-g.addEdge("cherry", "kiwi");
 
 const layouter = new Dracula.Layout.Spring(g);
 layouter.layout();
 
-const renderer = new Dracula.Renderer.Raphael('canvas', g, 400, 300);
+const renderer = new Dracula.Renderer.Raphael('canvas', g, 10, 1900);
 renderer.draw();
 </script>
 

@@ -18,7 +18,12 @@ public static class DbWorker
     {
         if (!File.Exists(StaticData.PathToDb))
         {
-            return default;
+            return new List<QueueModel>()
+            {
+                new QueueModel(QueueMemberType.Consumer){ExchangeName = "a", RoutingKey = "a1"},
+                new QueueModel(QueueMemberType.Consumer){ExchangeName = "a", RoutingKey = "a1"},
+                new QueueModel(QueueMemberType.Publisher){ExchangeName = "a", RoutingKey = "a1"}
+            };
         }
         return Newtonsoft.Json.JsonConvert.DeserializeObject<List<QueueModel>>(File.ReadAllText(StaticData.PathToDb));
     }
