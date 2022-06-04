@@ -38,9 +38,10 @@ void Work()
     Compilation compilation =
         sampleProjectToAnalyze.GetCompilationAsync().Result;
     
-    var queueModelType = compilation.GetTypesByMetadataName("Common.Queues.PaymentChangedReportingQueueMessage");
+    var queueModelType = compilation.GetTypesByMetadataName("Common.Queues.PaymentChangedReportingQueueMessage").FirstOrDefault();
 
-    //queueModelType.Construct
+    queueModelType.ToString();
+
 }
 
 
