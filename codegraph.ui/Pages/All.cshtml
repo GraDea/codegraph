@@ -6,37 +6,48 @@
 }
 
 <!DOCTYPE html>
-
 <html>
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+<header>
+<script type="text/javascript" src="js/raphael-min.js"></script>
+    <script type="text/javascript" src="js/graffle.js"></script>
+    <script type="text/javascript" src="js/graph.js"></script>
+    <script type="text/javascript">
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/graphdracula/1.0.3/dracula.min.js"></script>
+var redraw;
+var height = 500;
+var width = 900;
 
-    <title></title>
-</head>
-<body>
-<div id="canvas">
+/* only do all this when document has finished loading (needed for RaphaelJS */
+window.onload = function() {
+
+    var g = new Graph();
     
-</div>
-<script>
-const g = new Dracula.Graph();
-@foreach (var edge in Model.Edges)
-{
-    <text>
-    g.addEdge('@edge.Item1','@edge.Item2');
-     </text>
-}
+    @foreach(var edge in Model.Edges)
+    {
+<text>
+g.addEdge('@edge.Item1', '@edge.Item2');
+</text>
+    }
 
+    /* layout the graph using the Spring layout implementation */
+    var layouter = new Graph.Layout.Spring(g);
+    layouter.layout();
+    
+    /* draw the graph using the RaphaelJS draw implementation */
+    var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
+    renderer.draw();
+    
+    redraw = function() {
+        layouter.layout();
+        renderer.draw();
+    };
+};
 
-const layouter = new Dracula.Layout.Spring(g);
-layouter.layout();
-
-const renderer = new Dracula.Renderer.Raphael('canvas', g, 10, 1900);
-renderer.draw();
-</script>
-
-
+    </script>
+</header>
+<body>
+<div id="canvas"></div>
+<button id="redraw" onclick="redraw();">redraw</button>
 </body>
 </html>
+    
