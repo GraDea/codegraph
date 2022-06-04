@@ -18,6 +18,6 @@ public class IndexModel : PageModel
     {
         var items =  DbWorker.Load();
         if(string.IsNullOrWhiteSpace(name) ||items==null) return;
-        Items = items.Where(lst => lst.ExchangeName == name || lst.RoutingQueue == name);
+        Items = items.Where(lst => lst.ExchangeName == name || lst.RoutingKey == name);
     }
 }
