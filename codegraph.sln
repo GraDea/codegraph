@@ -2,9 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGraph", "CodeGraph\CodeGraph.csproj", "{DEAD73BC-852F-4A44-AEBF-94BBEEC5AAC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codegraph.common", "codegraph.common\codegraph.common.csproj", "{5AB03C8C-84D3-4BB4-A50C-C5A82300D985}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGraph.Common", "codegraph.common\CodeGraph.Common.csproj", "{5AB03C8C-84D3-4BB4-A50C-C5A82300D985}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codegraph.ui", "codegraph.ui\codegraph.ui.csproj", "{4C349C46-6BF9-4729-86FD-1F6FA8D5E450}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGraph.UI", "codegraph.ui\CodeGraph.UI.csproj", "{B4E6AC69-9DBC-4803-8358-8AB9E21BAE7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,9 +20,9 @@ Global
 		{5AB03C8C-84D3-4BB4-A50C-C5A82300D985}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AB03C8C-84D3-4BB4-A50C-C5A82300D985}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AB03C8C-84D3-4BB4-A50C-C5A82300D985}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C349C46-6BF9-4729-86FD-1F6FA8D5E450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C349C46-6BF9-4729-86FD-1F6FA8D5E450}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C349C46-6BF9-4729-86FD-1F6FA8D5E450}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C349C46-6BF9-4729-86FD-1F6FA8D5E450}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4E6AC69-9DBC-4803-8358-8AB9E21BAE7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4E6AC69-9DBC-4803-8358-8AB9E21BAE7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4E6AC69-9DBC-4803-8358-8AB9E21BAE7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4E6AC69-9DBC-4803-8358-8AB9E21BAE7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

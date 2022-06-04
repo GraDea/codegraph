@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\codegraph.common\codegraph.common.csproj" />
+      <ProjectReference Include="..\codegraph.common\CodeGraph.Common.csproj" />
     </ItemGroup>
 
 </Project>
