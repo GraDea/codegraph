@@ -6,14 +6,14 @@
 }
 
 <div class="text-center">
-    @if(Model.Items == null || !Model.Items.Any())
+    @if(Model.Publishers == null || !Model.Publishers.Any())
     {
-        <h1 class="display-4">Найденные совпадения не обнаружены</h1>
+        <h3>Продюсеры не обнаружены</h3>
     }
     else
     {
+        <h3>Продюсеры:</h3>
         <table class="table table-striped">
-
             <thead>
             <tr>
                 <th scope="col">Микросервис</th>
@@ -23,26 +23,65 @@
             </tr>
             </thead>
             <tbody>
-                            @foreach (var item in Model.Items)
-                                        {
-                                            <tr>
-                                                <td scope="row">@item.Microservice</td>
-                                                <td scope="row">@item.ExchangeName</td>
-                                                <td scope="row">@item.RoutingQueue</td>
-                                                @if (item.MemberType == QueueMemberType.Consumer)
-                                                {
-                                                    <td scope="row">Подписчик</td>
-                                                }
-                                                else
-                                                {
-                                                    <td scope="row">Подюсер</td>
-                                                }
-                                            </tr>
-                                        }
-                        </tbody>
+                @foreach (var item in Model.Publishers)
+                            {
+                                <tr>
+                                    <td scope="row">@item.Microservice</td>
+                                    <td scope="row">@item.ExchangeName</td>
+                                    <td scope="row">@item.RoutingKey</td>
+                                    @if (item.MemberType == QueueMemberType.Consumer)
+                                    {
+                                        <td scope="row">Подписчик</td>
+                                    }
+                                    else
+                                    {
+                                        <td scope="row">Подюсер</td>
+                                    }
+                                </tr>
+                            }
+            </tbody>
         </table>
       
             
     }
+    <hr/>
+    @if(Model.Consumers == null || !Model.Consumers.Any())
+        {
+            <h3>Подписчики не обнаружены</h3>
+        }
+        else
+        {
+            <h3>Подписчики:</h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Микросервис</th>
+                    <th scope="col">Exchange</th>
+                    <th scope="col">Routing</th>
+                    <th scope="col">Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Consumers)
+                                {
+                                    <tr>
+                                        <td scope="row">@item.Microservice</td>
+                                        <td scope="row">@item.ExchangeName</td>
+                                        <td scope="row">@item.RoutingKey</td>
+                                        @if (item.MemberType == QueueMemberType.Consumer)
+                                        {
+                                            <td scope="row">Подписчик</td>
+                                        }
+                                        else
+                                        {
+                                            <td scope="row">Подюсер</td>
+                                        }
+                                    </tr>
+                                }
+                </tbody>
+            </table>
+          
+                
+        }
     
 </div>
