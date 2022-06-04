@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
-
-namespace CodeGraph.Common;
+using CodeGraph.Common;
 
 public static class DbWorker
 {

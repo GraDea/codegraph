@@ -30,10 +30,10 @@ g.addEdge("tomato", "kiwi");
 g.addEdge("cherry", "apple");
 g.addEdge("cherry", "kiwi");
 
-var layouter = new Dracula.Layout.Spring(g);
+const layouter = new Dracula.Layout.Spring(g);
 layouter.layout();
 
-var renderer = new Dracula.Renderer.Raphael('canvas', g, 400, 300);
+const renderer = new Dracula.Renderer.Raphael('canvas', g, 400, 300);
 renderer.draw();
 </script>
 
