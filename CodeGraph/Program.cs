@@ -41,7 +41,9 @@ void Work()
     {
         @"C:\Users\o.sidorov\cian\git\microservices\yandex-payments", 
         @"C:\Users\o.sidorov\cian\git\microservices\billing-accounts",
-        @"C:\Users\o.sidorov\cian\git\monolith\csharp"
+        @"C:\Users\o.sidorov\cian\git\microservices\billing-payments",
+        @"C:\Users\o.sidorov\cian\git\microservices\billing-subscriptions",
+        //@"C:\Users\o.sidorov\cian\git\monolith\csharp" -- пока не поддерживается
     };
 
     var result = new List<QueueModel>();

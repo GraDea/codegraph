@@ -88,8 +88,15 @@ public class SolutionParser
 
     bool TryGetQueueModelFromClass(SemanticModel semanticModel, ClassDeclarationSyntax syntax, QueueMemberType memberType, out QueueModel queueModel)
     {
+        queueModel = null;
+        if (semanticModel.GetDeclaredSymbol(syntax)?.IsAbstract ?? false) // TODO: Добавить поддержку множественного наследования и абтрактных моделей
+        {
+            return false;
+        }
+        
         var constructorDeclarationSyntax =
             syntax.Members.OfType<ConstructorDeclarationSyntax>().FirstOrDefault();
+        
         if (constructorDeclarationSyntax != null)
         {
             var arguments = constructorDeclarationSyntax.Initializer.ArgumentList.Arguments;
@@ -113,7 +120,6 @@ public class SolutionParser
             }
         }
 
-        queueModel = null;
         return false;
     }
 
@@ -121,7 +127,10 @@ public class SolutionParser
     {
         if (expressionSyntax is IdentifierNameSyntax)
         {
-            return (semanticModel.GetSymbolInfo(expressionSyntax).Symbol as ILocalSymbol).Type.ToString();
+            var symbol = semanticModel.GetSymbolInfo(expressionSyntax).Symbol;
+            
+            return ((symbol as ILocalSymbol)?.Type ?? (symbol as IParameterSymbol)?.Type) //TODO: IParameterSymbol - добавить поддержку generic methods
+                .ToString();
         }
         if (expressionSyntax is ObjectCreationExpressionSyntax)
         {
@@ -159,15 +168,21 @@ public class SolutionParser
     {
         if (syntax.ToString().Contains("Publish"))
         {
-            if ((model.GetSymbolInfo(syntax).Symbol as IMethodSymbol).IsExtensionMethod)
+            if ((model.GetSymbolInfo(syntax).Symbol as IMethodSymbol)?.IsExtensionMethod ?? false)
             {
                 //TODO: Сделать обработку методов расширения, чтобы заходить в них и получать создание queue модели. Найдено в монолите: PublishUserProfileChangedQueueMessage
                 return false;
             }
             
-            return "Cian.Queue.Services.IQueueService" == (model.GetSymbolInfo(
-                ((Microsoft.CodeAnalysis.CSharp.Syntax.MemberAccessExpressionSyntax) syntax
-                    .Expression).Expression).Symbol as IFieldSymbol)?.Type.ToString();
+            var memberAccessExpressionSyntax = syntax.Expression as MemberAccessExpressionSyntax;
+            if (memberAccessExpressionSyntax != null)
+            {
+                return "Cian.Queue.Services.IQueueService" == (model.GetSymbolInfo(memberAccessExpressionSyntax.Expression).Symbol as IFieldSymbol)?.Type.ToString();
+            }
+            
+            // return "Cian.Queue.Services.IQueueService" == (model.GetSymbolInfo(
+            //     ((Microsoft.CodeAnalysis.CSharp.Syntax.MemberAccessExpressionSyntax) syntax
+            //         .Expression).Expression).Symbol as IFieldSymbol)?.Type.ToString();
         }
 
         return false;
