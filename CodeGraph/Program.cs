@@ -41,7 +41,7 @@ void Work()
     {
         @"C:\Users\o.sidorov\cian\git\microservices\yandex-payments", 
         @"C:\Users\o.sidorov\cian\git\microservices\billing-accounts",
-        @"C:\Users\o.sidorov\cian\git\microservices\billing-payments",
+        @"C:\Users\o.sidorov\cian\git\microservices\billing-payments", //TODO: не работает IncomingPaymentQueueNotifyConsumedMessage : IConsumedQueueMessage
         @"C:\Users\o.sidorov\cian\git\microservices\billing-subscriptions",
         //@"C:\Users\o.sidorov\cian\git\monolith\csharp" -- пока не поддерживается
     };
